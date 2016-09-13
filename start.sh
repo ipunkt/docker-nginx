@@ -1,8 +1,8 @@
 #!/bin/sh
 
-PATH="/var/www/app"
+APPPATH="/var/www/app"
 
-for STORAGE in "${PATH}/storage" "${PATH}/app/storage" ; do
+for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" ; do
 	if [ -d $STORAGE ] ; then
 		echo Making $STORAGE writable
 		chmod -R 777 $STORAGE
@@ -42,7 +42,7 @@ fi
 # indication that something has gone wrong
 set -e
 
-ARTISAN="${PATH}/artisan "
+ARTISAN="${APPPATH}/artisan "
 
 if [ -f $ARTISAN ] ; then
 	echo Taking Application into maintenance mode
@@ -59,13 +59,13 @@ nginx -g "daemon off;" &
 
 if [ -f $ARTISAN ] ; then
 	echo Migrating
-	php ${PATH}/artisan migrate --no-interaction --force
+	php ${APPPATH}/artisan migrate --no-interaction --force
 
 	echo Seeding
-	php ${PATH}/artisan db:seed --no-interaction --force
+	php ${APPPATH}/artisan db:seed --no-interaction --force
 
 	echo Taking Application out of maintenance mode
-	php ${PATH}/artisan up
+	php ${APPPATH}/artisan up
 else
 	echo "Artisan not found at $ARTISAN: skipping migrate and seed"
 fi
