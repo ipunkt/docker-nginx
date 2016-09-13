@@ -17,7 +17,7 @@ RUN gpg --keyserver keys.gnupg.net --recv-key 89DF5277 && gpg -a --export 89DF52
 			| apt-key add - && \
 			echo "deb http://ftp.hosteurope.de/mirror/packages.dotdeb.org/ jessie all" \
 						> /etc/apt/sources.list.d/dotdeb.list
-RUN apt-get update && apt-cache search php7 && apt-get -y install php7.0-mysql coreutils php7.0-fpm php7.0-json php7-mbstring \
+RUN apt-get update && apt-cache search php7 && apt-get -y install php7.0-mysql coreutils php7.0-fpm php7.0-json php7.0-mbstring \
 		php7.0-cli php7.0-curl mysql-client \
 		&& rm -Rf /var/lib/apt/lists
 COPY include /etc/nginx/include
