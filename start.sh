@@ -1,6 +1,8 @@
 #!/bin/sh
 
-for STORAGE in "/var/www/laravel/storage" "/var/www/laravel/app/storage" ; do
+PATH="/var/www/app"
+
+for STORAGE in "${PATH}/storage" "${PATH}/app/storage" ; do
 	if [ -d $STORAGE ] ; then
 		echo Making $STORAGE writable
 		chmod -R 777 $STORAGE
@@ -40,7 +42,7 @@ fi
 # indication that something has gone wrong
 set -e
 
-ARTISAN="/var/www/laravel/artisan "
+ARTISAN="${PATH}/artisan "
 
 if [ -f $ARTISAN ] ; then
 	echo Taking Application into maintenance mode
@@ -57,13 +59,13 @@ nginx -g "daemon off;" &
 
 if [ -f $ARTISAN ] ; then
 	echo Migrating
-	php /var/www/laravel/artisan migrate --no-interaction --force
+	php ${PATH}/artisan migrate --no-interaction --force
 
 	echo Seeding
-	php /var/www/laravel/artisan db:seed --no-interaction --force
+	php ${PATH}/artisan db:seed --no-interaction --force
 
 	echo Taking Application out of maintenance mode
-	php /var/www/laravel/artisan up
+	php ${PATH}/artisan up
 else
 	echo "Artisan not found at $ARTISAN: skipping migrate and seed"
 fi
