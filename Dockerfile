@@ -3,7 +3,6 @@ FROM nginx:1.9.7
 ADD start.sh /start.sh
 CMD [ "sh", "/start.sh" ]
 RUN rm /etc/nginx/conf.d/*
-ADD www.conf /etc/php/7.0/fpm/pool.d/
 
 # This file is used by the start script to substite Templates
 #
@@ -26,4 +25,8 @@ RUN apt-get update && apt-cache search php7 && apt-get -y install php7.0-mysql \
 		php7.0-xml \
 		php7.0-cli php7.0-curl mysql-client \
 		&& rm -Rf /var/lib/apt/lists
+
+# Has to be after the installation or dpkg tries to ask about the existing file
+ADD www.conf /etc/php/7.0/fpm/pool.d/
+
 COPY include /etc/nginx/include
