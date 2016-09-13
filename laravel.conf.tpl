@@ -3,7 +3,7 @@ server {
 	listen 81 default_server http2 proxy_protocol;
 	listen [::]:80 default_server ipv6only=on;
 
-	root /var/www/laravel/public;
+	root /var/www/app/public;
 	index index.php index.html index.htm;
 
 	server_name <SERVER_URL>;
@@ -24,6 +24,7 @@ server {
 		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 		include fastcgi_params;
 		include /etc/nginx/include/proxy-https.conf;
+		include /etc/nginx/include/harden-http-poxy.conf;
 	}
 }
 
