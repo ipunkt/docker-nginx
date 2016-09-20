@@ -22,7 +22,7 @@ RUN gpg --keyserver keys.gnupg.net --recv-key 89DF5277 && gpg -a --export 89DF52
 						> /etc/apt/sources.list.d/dotdeb.list
 RUN apt-get update && apt-cache search php7 && apt-get -y install php7.0-mysql \
 		coreutils php7.0-fpm php7.0-json php7.0-mbstring \
-		php7.0-xml \
+		php7.0-xml php7.0-zip \
 		php7.0-cli php7.0-curl mysql-client \
 		&& rm -Rf /var/lib/apt/lists
 
