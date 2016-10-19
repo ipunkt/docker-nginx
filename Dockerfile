@@ -8,7 +8,7 @@ RUN rm /etc/nginx/conf.d/*
 #
 # Currently known Templates:
 # SERVER_URL: served url
-ADD laravel.conf.tpl /etc/nginx/conf.template.d/
+COPY laravel.conf.tpl /etc/nginx/conf.template.d/999-laravel.conf.tpl
 RUN mkdir -p /var/www/app
 
 ADD nginx.conf /etc/nginx/nginx.conf
