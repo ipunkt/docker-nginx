@@ -15,6 +15,17 @@ if [ x"$SERVER_URL" = x"" ] ; then
 	SERVER_URL=localhost
 fi
 
+if [ ! -z "$CACHE_DIRECTORY" ] ; then
+	if [ ! -d "$CACHE_DIRECTORY" ] ; then
+		echo "Creating Cache Directory"
+		mkdir -p "$CACHE_DIRECTORY"
+	fi
+	echo "Setting Ownership for Cache directory $CACHE_DIRECTORY"
+	chown -R www-data.www-data "$CACHE_DIRECTORY"
+	echo "Setting permissions for Cache directory $CACHE_DIRECTORY"
+	chmod -R 770 "$CACHE_DIRECTORY"
+fi
+
 echo Creating NGINX Configuration
 echo "Setting Server Url to $SERVER_URL"
 for FILEPATH in /etc/nginx/conf.template.d/*
