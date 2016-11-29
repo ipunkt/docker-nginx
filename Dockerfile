@@ -1,4 +1,4 @@
-FROM nginx:1.9.7
+FROM nginx:1.10.2
 
 ADD start.sh /start.sh
 CMD [ "sh", "/start.sh" ]

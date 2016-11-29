@@ -2,10 +2,12 @@
 
 APPPATH="/var/www/app"
 
-for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" ; do
+for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" \
+  "${APPPATH}/bootstrap/cache" ; do
 	if [ -d $STORAGE ] ; then
 		echo Making $STORAGE writable
-		chmod -R 777 $STORAGE
+		#chmod -R 777 $STORAGE
+		chown -R www-data.wwwdata $STORAGE
 	else
 		echo Storage $STORAGE not found
 	fi
