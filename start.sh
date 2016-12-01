@@ -71,11 +71,15 @@ echo Starting NGINX
 nginx -g "daemon off;" &
 
 if [ -f $ARTISAN ] ; then
-	echo Migrating
-	php ${APPPATH}/artisan migrate --no-interaction --force
+	if [ -z "$NO_MIGRATE" ] ; then
+		echo Migrating	
+		php ${APPPATH}/artisan migrate --no-interaction --force
+	fi
 
-	echo Seeding
-	php ${APPPATH}/artisan db:seed --no-interaction --force
+	if [ -z "$NO_SEED" ] ; then
+		echo Seeding
+		php ${APPPATH}/artisan db:seed --no-interaction --force
+	fi
 
 	echo Taking Application out of maintenance mode
 	php ${APPPATH}/artisan up
