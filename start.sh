@@ -64,8 +64,13 @@ else
 	echo "Artisan not found at $ARTISAN: skipping maintenance mode"
 fi
 
-echo Starting PHP7 fpm
-/etc/init.d/php7.0-fpm start
+# Do not start fpm if NO_FPM was set
+# This is used when the user wants to provide a different fpm version and mount
+# the socket to /var/run/php/php-fpm.sock via volumes_from
+if [ -z "$NO_FPM" ] ; then
+	echo Starting PHP7 fpm
+	/etc/init.d/php7.0-fpm start
+fi
 
 echo Starting NGINX
 nginx -g "daemon off;" &
