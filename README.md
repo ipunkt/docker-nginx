@@ -6,6 +6,13 @@ docker image with nginx + php fastcgi
 The CACHE\_DIRECTORY parameter will create the given directory and set it's
 permissions to 770 for www-data. This is ment to be used as cache path in your
 nginx configuration file.
+### NO\_FPM
+The NO\_FPM parameter will prevent the php7 fpm from being started. You will
+have to provide a php-fpm socket mounted to /var/run/php/php-fpm.sock via
+volumes\_from to use php with this option
+### NO\_MIGRATE & NO\_SEED
+The NO\_MIGRATE & NO\_SEED parameters will prevent `artisan migrate` and
+`artisan seed` from being run despite an artisan file being present.
 
 ## Available includes
 ### /etc/nginx/include/harden-http-poxy.conf
