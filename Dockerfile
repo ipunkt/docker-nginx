@@ -11,7 +11,6 @@ RUN rm /etc/nginx/conf.d/*
 COPY laravel.conf.tpl /etc/nginx/conf.template.d/999-laravel.conf.tpl
 RUN mkdir -p /var/www/app
 
-ADD nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /usr/local/bin
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -33,6 +32,7 @@ ENV LANG=de_DE.UTF-8
 ENV LANGUAGE=de_DE.UTF-8
 
 # Has to be after the installation or dpkg tries to ask about the existing file
-ADD www.conf /etc/php/7.0/fpm/pool.d/
+ADD nginx.conf.tpl /opt/config/nginx.conf.tpl
+ADD www.conf.tpl /opt/config/www.conf.tpl
 
 COPY include /etc/nginx/include

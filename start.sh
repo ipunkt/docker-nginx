@@ -2,6 +2,18 @@
 
 APPPATH="/var/www/app"
 
+USER="www-data"
+if [ ! -z "$USER_ID" -a ! -z "$GROUP_ID" ] ; then
+	echo "Switching to user"
+	USER="user"
+	deluser "$USER"
+	delgroup "$USER"
+	addgroup --gid "$GROUP_ID" "$USER"
+	adduser --disabled-password --disabled-login --no-create-home --system --uid "$USER_ID" --gid "$GROUP_ID" "$USER"
+fi
+sed -e "s/%%USER%%/$USER/" /opt/config/nginx.conf.tpl > /etc/nginx/nginx.conf
+sed -e "s/%%USER%%/$USER/" /opt/config/www.conf.tpl > /etc/php/7.0/fpm/pool.d/www.conf
+
 for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" \
   "${APPPATH}/bootstrap/cache" ; do
 	if [ -d $STORAGE ] ; then

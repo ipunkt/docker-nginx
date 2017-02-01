@@ -1,4 +1,4 @@
-user  www-data;
+user  %%USER%%;
 worker_processes  auto;
 
 error_log  /var/log/nginx/error.log warn;
