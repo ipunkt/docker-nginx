@@ -27,9 +27,10 @@ RUN apt-get update && apt-cache search php7 && apt-get -y install php7.0-mysql \
 		php7.0-xml php7.0-zip \
 		php7.0-cli php7.0-curl mysql-client locales \
 		&& rm -Rf /var/lib/apt/lists
-RUN locale-gen de_DE.UTF-8 && dpkg-reconfigure locales
+RUN localedef -i de_DE -f UTF-8 de_DE.UTF-8
 ENV LC_ALL=de_DE.UTF-8
 ENV LANG=de_DE.UTF-8
+ENV LANGUAGE=de_DE.UTF-8
 
 # Has to be after the installation or dpkg tries to ask about the existing file
 ADD www.conf /etc/php/7.0/fpm/pool.d/
