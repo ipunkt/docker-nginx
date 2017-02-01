@@ -19,7 +19,7 @@ for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" \
 	if [ -d $STORAGE ] ; then
 		echo Making $STORAGE writable
 		#chmod -R 777 $STORAGE
-		chown -R www-data.www-data $STORAGE
+		chown -R $USER.$USER $STORAGE
 	else
 		echo Storage $STORAGE not found
 	fi
@@ -35,7 +35,7 @@ if [ ! -z "$CACHE_DIRECTORY" ] ; then
 		mkdir -p "$CACHE_DIRECTORY"
 	fi
 	echo "Setting Ownership for Cache directory $CACHE_DIRECTORY"
-	chown -R www-data.www-data "$CACHE_DIRECTORY"
+	chown -R $USER.$USER "$CACHE_DIRECTORY"
 	echo "Setting permissions for Cache directory $CACHE_DIRECTORY"
 	chmod -R 770 "$CACHE_DIRECTORY"
 fi
