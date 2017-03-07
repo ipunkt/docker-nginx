@@ -20,8 +20,8 @@
 ; Unix user/group of processes
 ; Note: The user is mandatory. If the group is not set, the default user's group
 ;       will be used.
-user = ##USER##
-group = ##USER##
+user = %%USER%%
+group = %%USER%%
 
 ; The address on which to accept FastCGI requests.
 ; Valid syntaxes are:
@@ -46,8 +46,8 @@ listen = /var/run/php/php-fpm.sock
 ; BSD-derived systems allow connections regardless of permissions. 
 ; Default Values: user and group are set as the running user
 ;                 mode is set to 0660
-listen.owner = ##USER##
-listen.group = ##USER##
+listen.owner = %%USER%%
+listen.group = %%USER%%
 ;listen.mode = 0660
 ; When POSIX Access Control Lists are supported you can set them using
 ; these options, value is a comma separated list of user/group names.
@@ -106,22 +106,22 @@ pm = dynamic
 ; forget to tweak pm.* to fit your needs.
 ; Note: Used when pm is set to 'static', 'dynamic' or 'ondemand'
 ; Note: This value is mandatory.
-pm.max_children = 5
+pm.max_children = %%PHP_MAX_CHILDREN%%
 
 ; The number of child processes created on startup.
 ; Note: Used only when pm is set to 'dynamic'
 ; Default Value: min_spare_servers + (max_spare_servers - min_spare_servers) / 2
-pm.start_servers = 2
+pm.start_servers = %%PHP_START_SERVERS%%
 
 ; The desired minimum number of idle server processes.
 ; Note: Used only when pm is set to 'dynamic'
 ; Note: Mandatory when pm is set to 'dynamic'
-pm.min_spare_servers = 1
+pm.min_spare_servers = %%PHP_MIN_SPARE_SERVERS%%
 
 ; The desired maximum number of idle server processes.
 ; Note: Used only when pm is set to 'dynamic'
 ; Note: Mandatory when pm is set to 'dynamic'
-pm.max_spare_servers = 3
+pm.max_spare_servers = %%PHP_MAX_SPARE_SERVERS%%
 
 ; The number of seconds after which an idle process will be killed.
 ; Note: Used only when pm is set to 'ondemand'
@@ -132,7 +132,7 @@ pm.max_spare_servers = 3
 ; This can be useful to work around memory leaks in 3rd party libraries. For
 ; endless request processing specify '0'. Equivalent to PHP_FCGI_MAX_REQUESTS.
 ; Default Value: 0
-;pm.max_requests = 500
+;pm.max_requests = %%PHP_FCGI_MAX_REQUESTS%%
 
 ; The URI to view the FPM status page. If this value is not set, no URI will be
 ; recognized as a status page. It shows the following informations:
@@ -243,7 +243,7 @@ pm.max_spare_servers = 3
 ;       anything, but it may not be a good idea to use the .php extension or it
 ;       may conflict with a real PHP file.
 ; Default Value: not set
-;ping.path = /ping
+ping.path = /ping
 
 ; This directive may be used to customize the response of a ping request. The
 ; response is formatted as text/plain with a 200 response code.
@@ -407,5 +407,6 @@ clear_env = no
 ;php_admin_value[sendmail_path] = /usr/sbin/sendmail -t -i -f www@my.domain.com
 ;php_flag[display_errors] = off
 ;php_admin_value[error_log] = /var/log/fpm-php.www.log
-;php_admin_flag[log_errors] = on
+php_admin_value[error_log] = /var/log/fpm-php.log
+php_admin_flag[log_errors] = on
 ;php_admin_value[memory_limit] = 32M

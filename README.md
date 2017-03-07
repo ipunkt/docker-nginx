@@ -13,6 +13,17 @@ volumes\_from to use php with this option
 ### NO\_MIGRATE & NO\_SEED
 The NO\_MIGRATE & NO\_SEED parameters will prevent `artisan migrate` and
 `artisan seed` from being run despite an artisan file being present.
+### USER\_ID + GROUP\_ID
+Makes the nginx and php-fpm run under these ids. Useful when using the image
+for local development
+### PHP\_MAX\_CHILDREN
+PHP configuration value: pm.max\_chilren. Defaults to 100
+### PHP\_START\_SERVERS
+PHP Configuration value: pm.start\_servers
+### PHP\_MIN\_SPARE\_SERVERS
+PHP Configuration value: pm.min\_spare\_servers
+### PHP\_MAX\_SPARE\_SERVERS
+PHP Configuration value: pm.max\_spare\_servers
 
 ## Available includes
 ### /etc/nginx/include/harden-http-poxy.conf

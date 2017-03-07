@@ -25,7 +25,8 @@ RUN apt-get update && apt-cache search php7 && apt-get -y install php7.0-mysql \
 		coreutils php7.0-fpm php7.0-json php7.0-mbstring \
 		php7.0-xml php7.0-zip \
 		php7.0-cli php7.0-curl mysql-client locales \
-		&& rm -Rf /var/lib/apt/lists
+		&& rm -Rf /var/lib/apt/lists \
+		&& ln -s /dev/stderr /var/log/fpm-php.log
 RUN localedef -i de_DE -f UTF-8 de_DE.UTF-8
 ENV LC_ALL=de_DE.UTF-8
 ENV LANG=de_DE.UTF-8

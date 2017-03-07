@@ -14,6 +14,14 @@ server {
 		try_files $uri $uri/ /index.php$is_args$args;
 	}
 
+	location /ping {
+		access_log off;
+		include fastcgi_params;
+		fastcgi_index ping;
+		fastcgi_pass unix:/var/run/php/php-fpm.sock;
+		fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+	}
+
 	location ~ \.php$ {
 		include /etc/nginx/include/cors-php.conf;
 

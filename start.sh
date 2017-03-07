@@ -11,8 +11,37 @@ if [ ! -z "$USER_ID" -a ! -z "$GROUP_ID" ] ; then
 	addgroup --gid "$GROUP_ID" "$USER"
 	adduser --disabled-password --disabled-login --no-create-home --system --uid "$USER_ID" --gid "$GROUP_ID" "$USER"
 fi
+
+#
+# Set a default value for a variable if it is currently empty as defined by
+# test -z "$VARIABLE_NAME"
+#
+# Parameters
+# - $1 - Name of the variable for which a default value should be applier
+# - $2 - Default value which should be set if the variable is empty
+setDefault() {
+	VARIABLE_NAME="$1"
+	VARIABLE_DEFAULT_VALUE="$2"
+	VARIABLE_VALUE=
+
+	if eval "test -z \${"$VARIABLE_NAME"}" ; then
+		eval "$VARIABLE_NAME=$VARIABLE_DEFAULT_VALUE"
+	fi
+}
+
+setDefault 'PHP_MAX_CHILDREN' 100
+setDefault 'PHP_START_SERVERS' 20
+setDefault 'PHP_MIN_SPARE_SERVERS' 10
+setDefault 'PHP_MAX_SPARE_SERVERS' 20
+
 sed -e "s/%%USER%%/$USER/" /opt/config/nginx.conf.tpl > /etc/nginx/nginx.conf
-sed -e "s/%%USER%%/$USER/" /opt/config/www.conf.tpl > /etc/php/7.0/fpm/pool.d/www.conf
+sed \
+	-e "s/%%USER%%/$USER/" \
+	-e "s/%%PHP_MAX_CHILDREN%%/$PHP_MAX_CHILDREN/" \
+	-e "s/%%PHP_START_SERVERS%%/$PHP_START_SERVERS/" \
+	-e "s/%%PHP_MIN_SPARE_SERVERS%%/$PHP_MIN_SPARE_SERVERS/" \
+	-e "s/%%PHP_MAX_SPARE_SERVERS%%/$PHP_MAX_SPARE_SERVERS/" \
+  	/opt/config/www.conf.tpl > /etc/php/7.0/fpm/pool.d/www.conf
 
 for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" \
   "${APPPATH}/bootstrap/cache" ; do
