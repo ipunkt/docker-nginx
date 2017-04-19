@@ -25,7 +25,7 @@ RUN apt-get update && apt-cache search php7 && apt-get -y install php7.0-mysql \
 		coreutils php7.0-fpm php7.0-json php7.0-mbstring \
 		php7.0-xml php7.0-zip \
 		php7.0-cli php7.0-curl php7.0-gmp php7.0-mcrypt libphp-predis \
-		php7.0-imagick \
+		php7.0-imagick php7.0-intl \
 		mysql-client locales \
 		&& rm -Rf /var/lib/apt/lists \
 		&& ln -s /dev/stderr /var/log/fpm-php.log
