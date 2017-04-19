@@ -26,6 +26,7 @@ PHP Configuration value: pm.min\_spare\_servers
 PHP Configuration value: pm.max\_spare\_servers
 
 ## Available includes
+
 ### /etc/nginx/include/harden-http-poxy.conf
 Prevent the httpoxy vulnerability
 ### /etc/nginx/include/cors-options.conf
@@ -39,3 +40,18 @@ Uses the X-FORWARDED-PROTO http header for detection.
 Sets up nginx to extract the real client ip from the X-Forwarded-For header. The
 configured internal network address is 10.42.0.0/16 which is used by the rancher
 managed network
+
+## PHP Extensions
+
+We have included several php extensions:
+- cli
+- curl
+- gmp
+- imagick
+- json
+- mbstring
+- mcrypt
+- mysql
+- predis
+- xml
+- zip
