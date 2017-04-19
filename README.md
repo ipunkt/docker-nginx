@@ -48,6 +48,7 @@ We have included several php extensions:
 - curl
 - gmp
 - imagick
+- intl
 - json
 - mbstring
 - mcrypt
