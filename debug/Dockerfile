@@ -1,4 +1,4 @@
-FROM ipunktbs/nginx:1.10.2-7-1.2.12
+FROM ipunktbs/nginx:1.10.2-7-1.2.13
 RUN apt-get update && apt-get -y install php7.0-xdebug \
 		&& rm -Rf /var/lib/apt/lists \
 		&& mkdir -p /opt/profiling ; chmod 777 /opt/profiling
