@@ -33,6 +33,9 @@ setDefault 'PHP_MAX_CHILDREN' 100
 setDefault 'PHP_START_SERVERS' 20
 setDefault 'PHP_MIN_SPARE_SERVERS' 10
 setDefault 'PHP_MAX_SPARE_SERVERS' 20
+setDefault 'PHP_MEMORY_LIMIT' 128M
+setDefault 'PHP_POST_MAX_SIZE' 32M
+setDefault 'PHP_UPLOAD_MAX_FILESIZE' 32M
 
 sed -e "s/%%USER%%/$USER/" /opt/config/nginx.conf.tpl > /etc/nginx/nginx.conf
 sed \
@@ -41,6 +44,9 @@ sed \
 	-e "s/%%PHP_START_SERVERS%%/$PHP_START_SERVERS/" \
 	-e "s/%%PHP_MIN_SPARE_SERVERS%%/$PHP_MIN_SPARE_SERVERS/" \
 	-e "s/%%PHP_MAX_SPARE_SERVERS%%/$PHP_MAX_SPARE_SERVERS/" \
+	-e "s/%%PHP_MEMORY_LIMIT%%/$PHP_MEMORY_LIMIT/" \
+	-e "s/%%PHP_POST_MAX_SIZE%%/$PHP_POST_MAX_SIZE/" \
+	-e "s/%%PHP_UPLOAD_MAX_FILESIZE%%/$PHP_UPLOAD_MAX_FILESIZE/" \
   	/opt/config/www.conf.tpl > /etc/php/7.0/fpm/pool.d/www.conf
 
 for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" \
@@ -118,7 +124,7 @@ nginx -g "daemon off;" &
 
 if [ -f $ARTISAN ] ; then
 	if [ -z "$NO_MIGRATE" ] ; then
-		echo Migrating	
+		echo Migrating
 		php ${APPPATH}/artisan migrate --no-interaction --force
 	fi
 

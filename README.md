@@ -24,6 +24,12 @@ PHP Configuration value: pm.start\_servers
 PHP Configuration value: pm.min\_spare\_servers
 ### PHP\_MAX\_SPARE\_SERVERS
 PHP Configuration value: pm.max\_spare\_servers
+### PHP\_MEMORY\_LIMIT
+PHP Configuration value: php_admin_value\[memory\_limit\]
+### PHP_POST_MAX_SIZE
+PHP Configuration value: php_admin_value\[post\_max\_size\]
+### PHP_UPLOAD_MAX_FILESIZE
+PHP Configuration value: php_admin_value\[upload\_max\_filesize\]
 
 ## Available includes
 
