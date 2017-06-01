@@ -36,6 +36,7 @@ setDefault 'PHP_MAX_SPARE_SERVERS' 20
 setDefault 'PHP_MEMORY_LIMIT' 128M
 setDefault 'PHP_POST_MAX_SIZE' 32M
 setDefault 'PHP_UPLOAD_MAX_FILESIZE' 32M
+setDefault 'NGINX_CLIENT_MAX_BODY_SIZE' 32m
 
 sed -e "s/%%USER%%/$USER/" /opt/config/nginx.conf.tpl > /etc/nginx/nginx.conf
 sed \
@@ -79,7 +80,10 @@ echo Creating NGINX Configuration
 echo "Setting Server Url to $SERVER_URL"
 for FILEPATH in /etc/nginx/conf.template.d/*
 do FILENAME=$(basename $FILEPATH | sed -e 's/\.tpl//')
-sed -e 's/<SERVER_URL>/'$SERVER_URL'/g' "$FILEPATH" > "/etc/nginx/conf.d/$FILENAME"
+sed \
+	-e 's/<SERVER_URL>/'$SERVER_URL'/g' \
+	-e 's/<CLIENT_MAX_BODY_SIZE>/'$CLIENT_MAX_BODY_SIZE'/g' \
+		"$FILEPATH" > "/etc/nginx/conf.d/$FILENAME"
 done
 
 # Check MySQL Connection
