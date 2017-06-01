@@ -82,7 +82,7 @@ for FILEPATH in /etc/nginx/conf.template.d/*
 do FILENAME=$(basename $FILEPATH | sed -e 's/\.tpl//')
 sed \
 	-e 's/<SERVER_URL>/'$SERVER_URL'/g' \
-	-e 's/<CLIENT_MAX_BODY_SIZE>/'$CLIENT_MAX_BODY_SIZE'/g' \
+	-e 's/<CLIENT_MAX_BODY_SIZE>/'$NGINX_CLIENT_MAX_BODY_SIZE'/g' \
 		"$FILEPATH" > "/etc/nginx/conf.d/$FILENAME"
 done
 
