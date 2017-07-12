@@ -9,6 +9,8 @@ server {
 
 	server_name <SERVER_URL>;
 
+	include /etc/nginx/server.d/*.conf;
+
 	location / {
 		include /etc/nginx/include/cors-options.conf;
 
