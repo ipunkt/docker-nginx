@@ -50,16 +50,25 @@ sed \
 	-e "s/%%PHP_UPLOAD_MAX_FILESIZE%%/$PHP_UPLOAD_MAX_FILESIZE/" \
   	/opt/config/www.conf.tpl > /etc/php/7.0/fpm/pool.d/www.conf
 
-for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" \
-  "${APPPATH}/bootstrap/cache" ; do
-	if [ -d $STORAGE ] ; then
-		echo Making $STORAGE writable
-		#chmod -R 777 $STORAGE
-		chown -R $USER.$USER $STORAGE
-	else
-		echo Storage $STORAGE not found
-	fi
-done
+###############################################################################
+# ensure the storage is writable by changing its user to the one running nginx
+# and php-fpm
+#
+# Environment: Setting NO_OWN_STORAGE to anything other than "" will prevent
+# 					this from happening
+###############################################################################
+if [ -z "$NO_OWN_STORAGE" ] ; then
+	for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" \
+	  "${APPPATH}/bootstrap/cache" ; do
+		if [ -d $STORAGE ] ; then
+			echo Making $STORAGE writable
+			#chmod -R 777 $STORAGE
+			chown -R $USER.$USER $STORAGE
+		else
+			echo Storage $STORAGE not found
+		fi
+	done
+fi
 
 if [ x"$SERVER_URL" = x"" ] ; then
 	SERVER_URL=localhost
