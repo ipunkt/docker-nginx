@@ -54,21 +54,37 @@ sed \
 # ensure the storage is writable by changing its user to the one running nginx
 # and php-fpm
 #
-# Environment: Setting NO_OWN_STORAGE to anything other than "" will prevent
-# 					this from happening
+# Environment: STORAGE_REOWN_MODE decides how this is done
+# - default / empty: Start the changing process int he foreground
+# - background: Start the changing process in the background
+# - none: Do nont change the ownership of the storage
 ###############################################################################
-if [ -z "$NO_OWN_STORAGE" ] ; then
+function own_storage() {
+	echo Started reowning storage
 	for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" \
-	  "${APPPATH}/bootstrap/cache" ; do
-		if [ -d $STORAGE ] ; then
-			echo Making $STORAGE writable
-			#chmod -R 777 $STORAGE
-			chown -R $USER.$USER $STORAGE
-		else
-			echo Storage $STORAGE not found
-		fi
-	done
-fi
+		"${APPPATH}/bootstrap/cache" ; do
+	if [ -d $STORAGE ] ; then
+		echo Making $STORAGE writable
+		#chmod -R 777 $STORAGE
+		chown -R $USER.$USER $STORAGE
+	else
+		echo Storage $STORAGE not found
+	fi
+done
+echo Finished reowning storage
+}
+
+case "$STORAGE_REOWN_MODE" in
+	background)
+		own_storage &
+		;;
+	none)
+		echo "Not reonwing storage."
+		;;
+	*)
+		own_storage
+		;;
+esac
 
 if [ x"$SERVER_URL" = x"" ] ; then
 	SERVER_URL=localhost
