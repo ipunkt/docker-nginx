@@ -59,7 +59,7 @@ sed \
 # - background: Start the changing process in the background
 # - none: Do nont change the ownership of the storage
 ###############################################################################
-function own_storage() {
+own_storage() {
 	echo Started reowning storage
 	for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" \
 		"${APPPATH}/bootstrap/cache" ; do
