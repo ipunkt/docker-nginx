@@ -1,6 +1,14 @@
 #!/bin/sh
 
+INITLOCK="/var/init.lock"
 APPPATH="/var/www/app"
+
+if [ -z "$INITSCRIPT" ] ; then
+	INITSCRIPT="$APPPATH/init.sh"
+fi
+if [ -z "$STARTSCRIPT" ] ; then
+	STARTSCRIPT="$APPPATH/start.sh"
+fi
 
 USER="www-data"
 if [ ! -z "$USER_ID" -a ! -z "$GROUP_ID" ] ; then
@@ -50,8 +58,19 @@ sed \
 	-e "s/%%PHP_UPLOAD_MAX_FILESIZE%%/$PHP_UPLOAD_MAX_FILESIZE/" \
   	/opt/config/www.conf.tpl > /etc/php/7.0/fpm/pool.d/www.conf
 
-for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" \
-  "${APPPATH}/bootstrap/cache" ; do
+###############################################################################
+# ensure the storage is writable by changing its user to the one running nginx
+# and php-fpm
+#
+# Environment: STORAGE_REOWN_MODE decides how this is done
+# - default / empty: Start the changing process int he foreground
+# - background: Start the changing process in the background
+# - none: Do nont change the ownership of the storage
+###############################################################################
+own_storage() {
+	echo Started reowning storage
+	for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" \
+		"${APPPATH}/bootstrap/cache" ; do
 	if [ -d $STORAGE ] ; then
 		echo Making $STORAGE writable
 		#chmod -R 777 $STORAGE
@@ -60,6 +79,20 @@ for STORAGE in "${APPPATH}/storage" "${APPPATH}/app/storage" \
 		echo Storage $STORAGE not found
 	fi
 done
+echo Finished reowning storage
+}
+
+case "$STORAGE_REOWN_MODE" in
+	background)
+		own_storage &
+		;;
+	none)
+		echo "Not reonwing storage."
+		;;
+	*)
+		own_storage
+		;;
+esac
 
 if [ x"$SERVER_URL" = x"" ] ; then
 	SERVER_URL=localhost
@@ -123,6 +156,24 @@ if [ -z "$NO_FPM" ] ; then
 	/etc/init.d/php7.0-fpm start
 fi
 
+#
+# Run INITSCRIPT if the file $INITLOCK does not exist yet.
+# - Then create $INITLOCK
+# -> Should only be run once per container.
+#
+if [ ! -f "$INITLOCK" ] ; then
+
+	if [ -f "$INITSCRIPT" ] ; then
+		$INITSCRIPT
+	fi
+
+	echo "The existance of this files prevents the INITSCRIPT to be run." > "$INITLOCK"
+fi
+
+if [ -f "$STARTSCRIPT" ] ; then
+	$STARTSCRIPT
+fi
+
 echo Starting NGINX
 nginx -g "daemon off;" &
 
@@ -142,6 +193,7 @@ if [ -f $ARTISAN ] ; then
 else
 	echo "Artisan not found at $ARTISAN: skipping migrate and seed"
 fi
+
 
 echo "Entering main-wait for the webserver"
 wait

@@ -30,6 +30,13 @@ PHP Configuration value: php_admin_value\[memory\_limit\]
 PHP Configuration value: php_admin_value\[post\_max\_size\]
 ### PHP_UPLOAD_MAX_FILESIZE
 PHP Configuration value: php_admin_value\[upload\_max\_filesize\]
+### INITSCRIPT
+Path to a script that is run the first time the container is started
+Uses the file /var/init.lock to track having been run
+Defaults to `/var/www/app/init.sh`
+### STARTSCRIPT
+Path to a script that is run each time the container is started
+Defaults to `/var/www/app/start.sh`
 
 ## Available includes
 
