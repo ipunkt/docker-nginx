@@ -1,6 +1,14 @@
 #!/bin/sh
 
+INITLOCK="/var/init.lock"
 APPPATH="/var/www/app"
+
+if [ -z "$INITSCRIPT" ] ; then
+	INITSCRIPT="$APPPATH/init.sh"
+fi
+if [ -z "$STARTSCRIPT" ] ; then
+	STARTSCRIPT="$APPPATH/start.sh"
+fi
 
 USER="www-data"
 if [ ! -z "$USER_ID" -a ! -z "$GROUP_ID" ] ; then
@@ -148,6 +156,24 @@ if [ -z "$NO_FPM" ] ; then
 	/etc/init.d/php7.0-fpm start
 fi
 
+#
+# Run INITSCRIPT if the file $INITLOCK does not exist yet.
+# - Then create $INITLOCK
+# -> Should only be run once per container.
+#
+if [ ! -f "$INITLOCK" ] ; then
+
+	if [ -f "$INITSCRIPT" ] ; then
+		$INITSCRIPT
+	fi
+
+	echo "The existance of this files prevents the INITSCRIPT to be run." > "$INITLOCK"
+fi
+
+if [ -f "$STARTSCRIPT" ] ; then
+	$STARTSCRIPT
+fi
+
 echo Starting NGINX
 nginx -g "daemon off;" &
 
@@ -167,6 +193,7 @@ if [ -f $ARTISAN ] ; then
 else
 	echo "Artisan not found at $ARTISAN: skipping migrate and seed"
 fi
+
 
 echo "Entering main-wait for the webserver"
 wait
