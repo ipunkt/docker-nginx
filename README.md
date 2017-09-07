@@ -59,6 +59,7 @@ managed network
 We have included several php extensions:
 - cli
 - curl
+- gd
 - gmp
 - imagick
 - intl
