@@ -1,42 +1,21 @@
 # nginx
-docker image with nginx + php fastcgi
+docker image with nginx
 
 ## Parameters
+### PHP\_REMOVE
+Defaults to `FALSEJ`
+If set to `TRUE` it removes the php configuration from the laravel.conf nginx config. Allows to start
+the server without a php-fpm to connect to
+### PING\_ENDPOINT
+Defaults to `FALSE`
+If set to `TRUE` it adds `/ping` as endpoint to the php-fpm ping function
 ### CACHE\_DIRECTORY
 The CACHE\_DIRECTORY parameter will create the given directory and set it's
 permissions to 770 for www-data. This is ment to be used as cache path in your
 nginx configuration file.
-### NO\_FPM
-The NO\_FPM parameter will prevent the php7 fpm from being started. You will
-have to provide a php-fpm socket mounted to /var/run/php/php-fpm.sock via
-volumes\_from to use php with this option
-### NO\_MIGRATE & NO\_SEED
-The NO\_MIGRATE & NO\_SEED parameters will prevent `artisan migrate` and
-`artisan seed` from being run despite an artisan file being present.
 ### USER\_ID + GROUP\_ID
 Makes the nginx and php-fpm run under these ids. Useful when using the image
 for local development
-### PHP\_MAX\_CHILDREN
-PHP configuration value: pm.max\_chilren. Defaults to 100
-### PHP\_START\_SERVERS
-PHP Configuration value: pm.start\_servers
-### PHP\_MIN\_SPARE\_SERVERS
-PHP Configuration value: pm.min\_spare\_servers
-### PHP\_MAX\_SPARE\_SERVERS
-PHP Configuration value: pm.max\_spare\_servers
-### PHP\_MEMORY\_LIMIT
-PHP Configuration value: php_admin_value\[memory\_limit\]
-### PHP_POST_MAX_SIZE
-PHP Configuration value: php_admin_value\[post\_max\_size\]
-### PHP_UPLOAD_MAX_FILESIZE
-PHP Configuration value: php_admin_value\[upload\_max\_filesize\]
-### INITSCRIPT
-Path to a script that is run the first time the container is started
-Uses the file /var/init.lock to track having been run
-Defaults to `/var/www/app/init.sh`
-### STARTSCRIPT
-Path to a script that is run each time the container is started
-Defaults to `/var/www/app/start.sh`
 
 ## Available includes
 
@@ -53,20 +32,3 @@ Uses the X-FORWARDED-PROTO http header for detection.
 Sets up nginx to extract the real client ip from the X-Forwarded-For header. The
 configured internal network address is 10.42.0.0/16 which is used by the rancher
 managed network
-
-## PHP Extensions
-
-We have included several php extensions:
-- cli
-- curl
-- gd
-- gmp
-- imagick
-- intl
-- json
-- mbstring
-- mcrypt
-- mysql
-- predis
-- xml
-- zip

@@ -1,0 +1,3 @@
+[template]
+src = "nginx.conf.tpl"
+dest = "/etc/nginx/nginx.conf"
