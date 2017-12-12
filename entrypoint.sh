@@ -25,10 +25,10 @@ fi
 #
 export NGINX_CLIENT_MAX_BODY_SIZE=${NGINX_CLIENT_MAX_BODY_SIZE:-32m}
 export SERVER_URL=${SERVER_URL:-localhost}
-export PHP_PASS=${PHP_PASS:-phpfpm:9000}
+export PHP_PASS=${PHP_PASS:-backend}
+export BACKEND_HOST=${BACKEND_HOST:-phpfpm:9000}
 export PING_ENDPOINT=${PING_ENDPOINT:-FALSE}
 export PHP_REMOVE=${PHP_REMOVE:-FALSE}
-export NGINX_DNS_RESOLVER=${NGINX_DNS_RESOLVER:-127.0.0.11}
 
 if [ ! -z "$CACHE_DIRECTORY" ] ; then
 	if [ ! -d "$CACHE_DIRECTORY" ] ; then
