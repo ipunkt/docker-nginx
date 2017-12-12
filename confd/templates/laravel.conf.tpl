@@ -1,4 +1,6 @@
 server {
+	resolver {{ getenv "NGINX_DNS_RESOLVER" }} valid=30;
+
 	listen 80 default_server;
 	listen 81 default_server http2 proxy_protocol;
 	listen [::]:80 default_server ipv6only=on;

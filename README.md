@@ -2,8 +2,11 @@
 docker image with nginx
 
 ## Parameters
+### NGINX\_DNS\_RESOLVER
+Defaults to `127.0.0.11`
+DNS Resolver used to resolve the PHP_PASS dns
 ### PHP\_REMOVE
-Defaults to `FALSEJ`
+Defaults to `FALSE`
 If set to `TRUE` it removes the php configuration from the laravel.conf nginx config. Allows to start
 the server without a php-fpm to connect to
 ### PING\_ENDPOINT
