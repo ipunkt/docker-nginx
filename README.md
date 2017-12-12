@@ -2,9 +2,12 @@
 docker image with nginx
 
 ## Parameters
-### NGINX\_DNS\_RESOLVER
-Defaults to `127.0.0.11`
-DNS Resolver used to resolve the PHP_PASS dns
+### PHP\_PASS
+Defaults to: `backend`
+Set the `fastcgi_pass` for php files
+### BACKEND_HOST
+Defaults to: `phpfpm:9000`
+This host is added as `upstream backend`. Can be used, for example, for `PHP_PASS`
 ### PHP\_REMOVE
 Defaults to `FALSE`
 If set to `TRUE` it removes the php configuration from the laravel.conf nginx config. Allows to start
