@@ -1,4 +1,4 @@
-user  %%USER%%;
+user  {{ getenv "USER" }};
 worker_processes  auto;
 
 error_log  /var/log/nginx/error.log warn;
