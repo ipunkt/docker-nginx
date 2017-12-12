@@ -1,6 +1,20 @@
 # nginx
 docker image with nginx
 
+## Legacy Support
+PHP7.0 was removed from this image because maintaining different versions in ipunktbs/php and a single nginx version is
+easier than creating different versions of this image.
+
+The following Feautures have been removed because of this:
+- artisan migrate & artisan db:seed: Required PHP
+- initscript & startscript: Used to prepare for php
+- Reown Storage: Used to prepare for php
+- wait for database: only done to prepare for artisan migrate & artisan db:seed
+### Replacing those functions
+To use these functions in the future create a start-once / restart:never container running the given command.
+Waiting for the database is not required. A healthcheck should be used instead where the application can decide itself
+what conditions to check.
+
 ## Parameters
 ### PHP\_PASS
 Defaults to: `backend`
