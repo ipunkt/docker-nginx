@@ -29,7 +29,7 @@ Set the maximum fails before the backend host is marked as failed
 Defaults to: `cat /etc/resolv.conf | grep nameserver | awk '{ print $2; }'` - first `nameserver` entry in /etc/resolv.conf
 Set the dns server which is used to resolve the hostname
 ### DNS\_VALID
-Defaults to: `30s`
+Defaults to: `10s`
 Sets the amount of time a dns resolution for a host is cached.
 ### PHP\_REMOVE
 Defaults to `FALSE`

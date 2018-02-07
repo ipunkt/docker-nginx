@@ -31,7 +31,7 @@ export BACKEND_MAX_FAILS=${BACKEND_MAX_FAILS:-0}
 export PING_ENDPOINT=${PING_ENDPOINT:-FALSE}
 export PHP_REMOVE=${PHP_REMOVE:-FALSE}
 export DNS_RESOLVER=${DNS_RESOLVER:-$(cat /etc/resolv.conf | grep nameserver | awk '{ print $2; }')}
-export DNS_VALID=${DNS_VALID:-30s}
+export DNS_VALID=${DNS_VALID:-10s}
 
 if [ ! -z "$CACHE_DIRECTORY" ] ; then
 	if [ ! -d "$CACHE_DIRECTORY" ] ; then

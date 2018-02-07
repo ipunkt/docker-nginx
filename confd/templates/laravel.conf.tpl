@@ -1,8 +1,6 @@
-upstream backend {
-    server {{ getenv "BACKEND_HOST" }} max_fails={{ getenv "BACKEND_MAX_FAILS" }} resolve;
-}
-
 server {
+
+	set $backend_servers {{ getenv "BACKEND_HOST" }};
 
 	listen 80 default_server;
 	listen 81 default_server http2 proxy_protocol;
@@ -38,7 +36,7 @@ server {
 
 		try_files $uri /index.php =404;
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
-		fastcgi_pass {{ getenv "PHP_PASS" }};
+		fastcgi_pass $backend_servers;
 		fastcgi_index index.php;
 		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 		include fastcgi_params;
