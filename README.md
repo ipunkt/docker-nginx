@@ -19,9 +19,18 @@ what conditions to check.
 ### PHP\_PASS
 Defaults to: `backend`
 Set the `fastcgi_pass` for php files
-### BACKEND_HOST
+### BACKEND\_HOST
 Defaults to: `phpfpm:9000`
 This host is added as `upstream backend`. Can be used, for example, for `PHP_PASS`
+### BACKEND\_MAX\_FAILS
+Defaults to: `0`
+Set the maximum fails before the backend host is marked as failed
+### DNS\_RESOLVER
+Defaults to: `cat /etc/resolv.conf | grep nameserver | awk '{ print $2; }'` - first `nameserver` entry in /etc/resolv.conf
+Set the dns server which is used to resolve the hostname
+### DNS\_VALID
+Defaults to: `30s`
+Sets the amount of time a dns resolution for a host is cached.
 ### PHP\_REMOVE
 Defaults to `FALSE`
 If set to `TRUE` it removes the php configuration from the laravel.conf nginx config. Allows to start

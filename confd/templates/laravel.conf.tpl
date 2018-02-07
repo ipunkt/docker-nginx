@@ -1,5 +1,5 @@
 upstream backend {
-    server {{ getenv "BACKEND_HOST" }};
+    server {{ getenv "BACKEND_HOST" }} max_fails={{ getenv "BACKEND_MAX_FAILS" }} resolve;
 }
 
 server {

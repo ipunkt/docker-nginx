@@ -27,5 +27,7 @@ http {
 
     #gzip  on;
 
+	 resolver {{ getenv "DNS_RESOLVER" }} valid={{ getenv "DNS_VALID" }};
+
     include /etc/nginx/conf.d/*.conf;
 }
